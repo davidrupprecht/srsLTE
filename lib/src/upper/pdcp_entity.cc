@@ -57,6 +57,12 @@ void pdcp_entity::init(srsue::rlc_interface_pdcp      *rlc_,
   rx_count    = 0;
 
   log->debug("Init %s\n", rrc->get_rb_name(lcid).c_str());
+  start(PDCP_THREAD_PRIO);
+}
+
+void pdcp_entity::stop()
+{
+  return;
 }
 
 void pdcp_entity::reset()
@@ -120,33 +126,7 @@ void pdcp_entity::config_security(uint8_t *k_rrc_enc_,
 // RLC interface
 void pdcp_entity::write_pdu(byte_buffer_t *pdu)
 {
-
-
-
-
-
-  if (cfg.is_data) {
-    uint32_t sn;
-    if(12 == cfg.sn_len)
-    {
-      pdcp_unpack_data_pdu_long_sn(pdu, &sn);
-    } else {
-      pdcp_unpack_data_pdu_short_sn(pdu, &sn);
-    }
-    log->info_hex(pdu->msg, pdu->N_bytes, "RX %s PDU: %d", rrc->get_rb_name(lcid).c_str(), sn);
-    gw->write_pdu(lcid, pdu);
-  } else {
-    if (cfg.is_control) {
-      uint32_t sn;
-      pdcp_unpack_control_pdu(pdu, &sn);
-      log->info_hex(pdu->msg, pdu->N_bytes, "RX %s SDU SN: %d",
-                    rrc->get_rb_name(lcid).c_str(), sn);
-    } else {
-      log->info_hex(pdu->msg, pdu->N_bytes, "RX %s PDU", rrc->get_rb_name(lcid).c_str());
-    }
-    // pass to RRC
-    rrc->write_pdu(lcid, pdu);
-  }
+  rx_pdu_queue.write(pdu);
 }
 
 void pdcp_entity::integrity_generate( uint8_t  *key_128,
@@ -181,6 +161,40 @@ void pdcp_entity::integrity_generate( uint8_t  *key_128,
     break;
   default:
     break;
+  }
+}
+
+void pdcp_entity::run_thread()
+{
+  byte_buffer_t *pdu;
+  running = true;
+
+  while(running) {
+    rx_pdu_queue.read(&pdu);
+
+    if (cfg.is_data) {
+      uint32_t sn;
+      if (12 == cfg.sn_len) {
+        pdcp_unpack_data_pdu_long_sn(pdu, &sn);
+      } else {
+        pdcp_unpack_data_pdu_short_sn(pdu, &sn);
+      }
+      log->info_hex(pdu->msg, pdu->N_bytes, "RX %s PDU: %d",
+                    rrc->get_rb_name(lcid).c_str(), sn);
+      gw->write_pdu(lcid, pdu);
+    } else {
+      if (cfg.is_control) {
+        uint32_t sn;
+        pdcp_unpack_control_pdu(pdu, &sn);
+        log->info_hex(pdu->msg, pdu->N_bytes, "RX %s SDU SN: %d",
+                      rrc->get_rb_name(lcid).c_str(), sn);
+      } else {
+        log->info_hex(pdu->msg, pdu->N_bytes, "RX %s PDU",
+                      rrc->get_rb_name(lcid).c_str());
+      }
+      // pass to RRC
+      rrc->write_pdu(lcid, pdu);
+    }
   }
 }
 
