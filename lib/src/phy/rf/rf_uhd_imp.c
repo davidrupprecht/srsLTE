@@ -147,12 +147,12 @@ static bool find_string(uhd_string_vector_handle h, char *str)
   return false; 
 }
 
-static bool isLocked(rf_uhd_handler_t *handler, char *sensor_name, bool is_rx, uhd_sensor_value_handle *value_h)
+static bool isLocked(rf_uhd_handler_t *handler, char *sensor_name, bool is_rx_sensor, uhd_sensor_value_handle *value_h)
 {
   bool val_out = false; 
   
   if (sensor_name) {
-    if (is_rx) {
+    if (is_rx_sensor) {
       uhd_usrp_get_rx_sensor(handler->usrp, sensor_name, 0, value_h);
     } else {
       uhd_usrp_get_mboard_sensor(handler->usrp, sensor_name, 0, value_h);
@@ -195,12 +195,13 @@ bool rf_uhd_rx_wait_lo_locked(void *h)
   }
   
   double report = 0.0;
-  while (!isLocked(handler, sensor_name, false, &value_h) && report < 30.0) {
+  while (!isLocked(handler, "lo_locked", true, &value_h) && report < 30.0) {
+  //while (!isLocked(handler, sensor_name, false, &value_h) && report < 50.0) {
     report += 0.1;
     usleep(1000);
   }
-
-  bool val = isLocked(handler, sensor_name, false, &value_h);
+  bool val = isLocked(handler, "lo_locked", true, &value_h);
+  //bool val = isLocked(handler, sensor_name, false, &value_h);
   
   uhd_string_vector_free(&mb_sensors);
   uhd_string_vector_free(&rx_sensors);
