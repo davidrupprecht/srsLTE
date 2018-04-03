@@ -2,6 +2,7 @@
 add_subdirectory(mme)
 add_subdirectory(hss)
 add_subdirectory(spgw)
+add_subdirectory(misc)
 
 # Link libstdc++ and libgcc
 if(BUILD_STATIC)
@@ -18,6 +19,7 @@ add_executable(srsepc main.cc )
 target_link_libraries(srsepc  srsepc_mme
                               srsepc_hss
                               srsepc_sgw
+                              srsepc_misc
                               srslte_upper
                               srslte_common
                               ${CMAKE_THREAD_LIBS_INIT} 

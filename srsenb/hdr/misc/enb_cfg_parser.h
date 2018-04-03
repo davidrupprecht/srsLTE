@@ -33,7 +33,7 @@
 #include <libconfig.h++>
 #include <string.h>
 #include <iostream>
-#include "srsenb/hdr/parser.h"
+#include "srsenb/hdr/misc/parser.h"
 
 #include "srsenb/hdr/upper/rrc.h"
 #include "srslte/asn1/liblte_rrc.h"

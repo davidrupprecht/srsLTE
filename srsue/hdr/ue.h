@@ -37,7 +37,7 @@
 #include <string>
 #include <pthread.h>
 
-#include "ue_base.h"
+#include "srsue/hdr/ue_base.h"
 #include "srslte/radio/radio_multi.h"
 #include "phy/phy.h"
 #include "mac/mac.h"
@@ -53,7 +53,7 @@
 #include "srslte/common/logger_file.h"
 #include "srslte/common/log_filter.h"
 
-#include "ue_metrics_interface.h"
+#include "srsue/hdr/misc/ue_metrics_interface.h"
 
 namespace srsue {
 

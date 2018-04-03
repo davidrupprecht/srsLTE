@@ -26,11 +26,11 @@
 
 #include "srslte/asn1/liblte_common.h"
 #include "srslte/asn1/liblte_rrc.h"
-#include "srsenb/hdr/cfg_parser.h"
+#include "srsenb/hdr/misc/cfg_parser.h"
 #include "srslte/srslte.h"
 
-#include "srsenb/hdr/parser.h"
-#include "enb_cfg_parser.h"
+#include "srsenb/hdr/misc/parser.h"
+#include "srsenb/hdr/misc/enb_cfg_parser.h"
 
 namespace srsenb {
 

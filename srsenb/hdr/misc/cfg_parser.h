@@ -27,7 +27,7 @@
 #ifndef SRSENB_CFG_PARSER_H
 #define SRSENB_CFG_PARSER_H
 
-#include "enb.h"
+#include "srsenb/hdr/enb.h"
 
 namespace srsenb {
 class cfg_parser

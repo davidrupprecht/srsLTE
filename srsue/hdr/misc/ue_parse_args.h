@@ -24,42 +24,29 @@
  *
  */
 
-#ifndef SRSUE_UE_METRICS_INTERFACE_H
-#define SRSUE_UE_METRICS_INTERFACE_H
+#ifndef SRSUE_UE_PARSE_ARGS_H
+#define SRSUE_UE_PARSE_ARGS_H
 
-#include <stdint.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <pthread.h>
 
-#include "srslte/common/metrics_hub.h"
-#include "upper/gw_metrics.h"
-#include "srslte/upper/rlc_metrics.h"
-#include "mac/mac_metrics.h"
-#include "phy/phy_metrics.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+
+#include "srsue/hdr/ue_base.h"
+#include <boost/program_options.hpp>
+#include <boost/program_options/parsers.hpp>
+
+namespace bpo = boost::program_options;
 
 namespace srsue {
 
-typedef struct {
-  uint32_t rf_o;
-  uint32_t rf_u;
-  uint32_t rf_l;
-  bool     rf_error;
-}rf_metrics_t;
+void parse_args(all_args_t *args, int argc, char *argv[]);
 
-typedef struct {
-  rf_metrics_t          rf;
-  phy_metrics_t         phy;
-  mac_metrics_t         mac;
-  srslte::rlc_metrics_t rlc;
-  gw_metrics_t          gw;
-}ue_metrics_t;
+}
 
-// UE interface
-class ue_metrics_interface : public srslte::metrics_interface<ue_metrics_t>
-{
-public:
-  virtual bool get_metrics(ue_metrics_t &m) = 0;
-  virtual bool is_attached() = 0;
-};
-
-} // namespace srsue
-
-#endif // SRSUE_UE_METRICS_INTERFACE_H
+#endif // SRSUE_UE_PARSE_ARGS_H

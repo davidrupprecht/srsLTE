@@ -29,10 +29,10 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <unistd.h>
-#include "srsue/hdr/ue_metrics_interface.h"
+#include "srsue/hdr/misc/ue_metrics_interface.h"
 #include "srslte/common/metrics_hub.h"
-#include "srsue/hdr/metrics_stdout.h"
-#include "srsue/hdr/metrics_csv.h"
+#include "srsue/hdr/misc/metrics_stdout.h"
+#include "srsue/hdr/misc/metrics_csv.h"
 
 using namespace srsue;
 

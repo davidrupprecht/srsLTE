@@ -18,10 +18,6 @@
 # and at http://www.gnu.org/licenses/.
 #
 
-add_subdirectory(phy)
-add_subdirectory(mac)
-add_subdirectory(upper)
-
-add_executable(metrics_test metrics_test.cc)
-target_link_libraries(metrics_test srslte_phy srslte_common srsue_misc)
-add_test(metrics_test metrics_test -o ${CMAKE_CURRENT_BINARY_DIR}/ue_metrics.csv)
+file(GLOB SOURCES "*.cc")
+add_library(srsue_misc STATIC ${SOURCES})
+install(TARGETS srsue_misc DESTINATION ${LIBRARY_DIR})

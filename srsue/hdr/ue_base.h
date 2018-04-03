@@ -36,15 +36,15 @@
 #include <string>
 #include <pthread.h>
 #include "srslte/radio/radio_multi.h"
-#include "phy/phy.h"
-#include "upper/usim.h"
-#include "upper/rrc.h"
+#include "srsue/hdr/phy/phy.h"
+#include "srsue/hdr/upper/usim.h"
+#include "srsue/hdr/upper/rrc.h"
 #include "srslte/interfaces/ue_interfaces.h"
 
 #include "srslte/common/logger.h"
 #include "srslte/common/log_filter.h"
 
-#include "ue_metrics_interface.h"
+#include "srsue/hdr/misc/ue_metrics_interface.h"
 
 namespace srsue {
 

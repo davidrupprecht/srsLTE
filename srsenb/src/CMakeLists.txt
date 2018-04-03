@@ -2,7 +2,7 @@
 add_subdirectory(phy)
 add_subdirectory(mac)
 add_subdirectory(upper)
-
+add_subdirectory(misc)
 
 # Link libstdc++ and libgcc
 if(BUILD_STATIC)
@@ -15,10 +15,11 @@ if (RPATH)
 endif (RPATH)
 
 
-add_executable(srsenb main.cc enb.cc parser.cc enb_cfg_parser.cc metrics_stdout.cc)
+add_executable(srsenb main.cc enb.cc)
 target_link_libraries(srsenb  srsenb_upper
                               srsenb_mac
                               srsenb_phy
+                              srsenb_misc
                               srslte_common
                               srslte_phy
                               srslte_upper

@@ -25,7 +25,7 @@
  *
  */
 
-#include "srsue/hdr/metrics_stdout.h"
+#include "srsue/hdr/misc/metrics_stdout.h"
 
 #include <unistd.h>
 #include <sstream>
